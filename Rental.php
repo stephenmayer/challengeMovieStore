@@ -45,7 +45,7 @@ class Rental
      */
     public function amountDue(): float
     {
-        return $this->movie->type()->getTotal(
+        return $this->movie->price()->getTotal(
             $this->daysRented()
         );
     }
@@ -55,7 +55,7 @@ class Rental
      */
     public function points(): float
     {
-        return $this->movie->type()->getPoints(
+        return $this->movie->points()->getTotal(
             $this->daysRented()
         );
     }

@@ -10,18 +10,25 @@ class Movie
     private $name;
 
     /**
-     * @var Type
+     * @var PriceCalculator
      */
-    private $type;
+    private $priceCalculator;
+
+    /**
+     * @var PointsCalculator
+     */
+    private $pointsCalculator;
 
     /**
      * @param string $name
-     * @param Type $type
+     * @param PriceCalculator $priceCalculator
+     * @param PointsCalculator $pointsCalculator
      */
-    public function __construct(string $name, Type $type)
+    public function __construct(string $name, PriceCalculator $priceCalculator, PointsCalculator $pointsCalculator)
     {
         $this->name = $name;
-        $this->type = $type;
+        $this->priceCalculator = $priceCalculator;
+        $this->pointsCalculator = $pointsCalculator;
     }
 
     /**
@@ -33,10 +40,18 @@ class Movie
     }
 
     /**
-     * @return Type
+     * @return PriceCalculator
      */
-    public function type()
+    public function price(): PriceCalculator
     {
-        return $this->type;
+        return $this->priceCalculator;
+    }
+
+    /**
+     * @return PointsCalculator
+     */
+    public function points(): PointsCalculator
+    {
+        return $this->pointsCalculator;
     }
 }

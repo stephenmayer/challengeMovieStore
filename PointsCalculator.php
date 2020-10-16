@@ -32,7 +32,7 @@ class PointsCalculator
      * @param int $daysRented
      * @return int
      */
-    public function points(int $daysRented): int
+    public function getTotal(int $daysRented): int
     {
         return $this->points + $this->getExtraPoints($daysRented);
     }
