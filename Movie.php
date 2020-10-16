@@ -1,29 +1,34 @@
 <?php
 
+namespace MovieStore;
+
 class Movie
 {
-    const CHILDRENS = 2;
-    const REGULAR = 0;
-    const NEW_RELEASE = 1;
-
     /**
      * @var string
      */
     private $name;
 
     /**
-     * @var int
+     * @var PriceCalculator
      */
-    private $priceCode;
+    private $priceCalculator;
+
+    /**
+     * @var PointsCalculator
+     */
+    private $pointsCalculator;
 
     /**
      * @param string $name
-     * @param int $priceCode
+     * @param PriceCalculator $priceCalculator
+     * @param PointsCalculator $pointsCalculator
      */
-    public function __construct($name, $priceCode)
+    public function __construct(string $name, PriceCalculator $priceCalculator, PointsCalculator $pointsCalculator)
     {
         $this->name = $name;
-        $this->priceCode = $priceCode;
+        $this->priceCalculator = $priceCalculator;
+        $this->pointsCalculator = $pointsCalculator;
     }
 
     /**
@@ -35,10 +40,18 @@ class Movie
     }
 
     /**
-     * @return int
+     * @return PriceCalculator
      */
-    public function priceCode()
+    public function price(): PriceCalculator
     {
-        return $this->priceCode;
+        return $this->priceCalculator;
+    }
+
+    /**
+     * @return PointsCalculator
+     */
+    public function points(): PointsCalculator
+    {
+        return $this->pointsCalculator;
     }
 }

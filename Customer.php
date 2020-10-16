@@ -1,5 +1,9 @@
 <?php
 
+namespace MovieStore;
+
+use Mustache_Engine;
+
 class Customer
 {
     /**
@@ -38,49 +42,41 @@ class Customer
     }
 
     /**
+     * @return array|Rental[]
+     */
+    public function getRentals(): array
+    {
+        return $this->rentals;
+    }
+
+    /**
      * @return string
      */
-    public function statement()
+    public function statement($asHtml = false)
+    {
+        $mustache = new Mustache_Engine(['entity_flags' => ENT_QUOTES]);
+        $templateFile = (!$asHtml) ? __DIR__ . '/templates/plaintext.tpl' : __DIR__ . '/templates/html.tpl';
+        $template = file_get_contents($templateFile);
+        return $mustache->render($template, $this);
+    }
+
+    public function getAmount()
     {
         $totalAmount = 0;
-        $frequentRenterPoints = 0;
-
-        $result = 'Rental Record for ' . $this->name() . PHP_EOL;
-
         foreach ($this->rentals as $rental) {
-            $thisAmount = 0;
-
-            switch($rental->movie()->priceCode()) {
-                case Movie::REGULAR:
-                    $thisAmount += 2;
-                    if ($rental->daysRented() > 2) {
-                        $thisAmount += ($rental->daysRented() - 2) * 1.5;
-                    }
-                    break;
-                case Movie::NEW_RELEASE:
-                    $thisAmount += $rental->daysRented() * 3;
-                    break;
-                case Movie::CHILDRENS:
-                    $thisAmount += 1.5;
-                    if ($rental->daysRented() > 3) {
-                        $thisAmount += ($rental->daysRented() - 3) * 1.5;
-                    }
-                    break;
-            }
-
-            $totalAmount += $thisAmount;
-
-            $frequentRenterPoints++;
-            if ($rental->movie()->priceCode() === Movie::NEW_RELEASE && $rental->daysRented() > 1) {
-                $frequentRenterPoints++;
-            }
-
-            $result .= "\t" . str_pad($rental->movie()->name(), 30, ' ', STR_PAD_RIGHT) . "\t" . $thisAmount . PHP_EOL;
+            $totalAmount += $rental->amountDue();
         }
-
-        $result .= 'Amount owed is ' . $totalAmount . PHP_EOL;
-        $result .= 'You earned ' . $frequentRenterPoints . ' frequent renter points' . PHP_EOL;
-
-        return $result;
+        return $totalAmount;
     }
+
+
+    public function getPoints()
+    {
+        $points = 0;
+        foreach ($this->rentals as $rental) {
+            $points += $rental->points();
+        }
+        return $points;
+    }
+
 }
