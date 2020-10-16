@@ -52,7 +52,7 @@ class Customer
     /**
      * @return string
      */
-    public function statement($asHtml = false)
+    public function statement($asHtml = false): string
     {
         $mustache = new Mustache_Engine(['entity_flags' => ENT_QUOTES]);
         $templateFile = (!$asHtml) ? __DIR__ . '/templates/plaintext.tpl' : __DIR__ . '/templates/html.tpl';
@@ -60,7 +60,7 @@ class Customer
         return $mustache->render($template, $this);
     }
 
-    public function getAmount()
+    public function getAmount(): float
     {
         $totalAmount = 0;
         foreach ($this->rentals as $rental) {
@@ -69,8 +69,7 @@ class Customer
         return $totalAmount;
     }
 
-
-    public function getPoints()
+    public function getPoints(): int
     {
         $points = 0;
         foreach ($this->rentals as $rental) {
