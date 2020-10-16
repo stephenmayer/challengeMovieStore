@@ -1,29 +1,27 @@
 <?php
 
+namespace MovieStore;
+
 class Movie
 {
-    const CHILDRENS = 2;
-    const REGULAR = 0;
-    const NEW_RELEASE = 1;
-
     /**
      * @var string
      */
     private $name;
 
     /**
-     * @var int
+     * @var Type
      */
-    private $priceCode;
+    private $type;
 
     /**
      * @param string $name
-     * @param int $priceCode
+     * @param Type $type
      */
-    public function __construct($name, $priceCode)
+    public function __construct(string $name, Type $type)
     {
         $this->name = $name;
-        $this->priceCode = $priceCode;
+        $this->type = $type;
     }
 
     /**
@@ -35,10 +33,10 @@ class Movie
     }
 
     /**
-     * @return int
+     * @return Type
      */
-    public function priceCode()
+    public function type()
     {
-        return $this->priceCode;
+        return $this->type;
     }
 }

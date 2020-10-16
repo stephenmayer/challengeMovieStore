@@ -1,5 +1,7 @@
 <?php
 
+namespace MovieStore;
+
 class Rental
 {
     /**
@@ -16,7 +18,7 @@ class Rental
      * @param Movie $movie
      * @param int $daysRented
      */
-    public function __construct(Movie $movie, $daysRented)
+    public function __construct(Movie $movie, int $daysRented)
     {
         $this->movie = $movie;
         $this->daysRented = $daysRented;
@@ -36,5 +38,25 @@ class Rental
     public function daysRented()
     {
         return $this->daysRented;
+    }
+
+    /**
+     * @return float
+     */
+    public function amountDue(): float
+    {
+        return $this->movie->type()->getTotal(
+            $this->daysRented()
+        );
+    }
+
+    /**
+     * @return float
+     */
+    public function points(): float
+    {
+        return $this->movie->type()->getPoints(
+            $this->daysRented()
+        );
     }
 }
